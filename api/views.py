@@ -31,6 +31,12 @@ def convert_currency_view(request):
             payload = json.loads(request.body)
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON.'}, status=400)
+
+        
+        channel_id = payload.get('channel_id', None)
+        if not channel_id:
+            return JsonResponse({'error': 'Channel ID is required.'}, status=400)
+            
         
         message = payload.get('message', '')
        
