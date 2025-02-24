@@ -31,15 +31,13 @@ def convert_currency_view(request):
             payload = json.loads(request.body)
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON.'}, status=400)
-
         
         channel_id = payload.get('channel_id', None)
         if not channel_id:
             return JsonResponse({'error': 'Channel ID is required.'}, status=400)
             
-        
         message = payload.get('message', '')
-       
+        # Expected format: /convert 100 USD to EUR
         match = re.match(r'/convert\s+([\d.]+)\s+(\w{3})\s+to\s+(\w{3})', message, re.IGNORECASE)
         if not match:
             return JsonResponse({'error': 'Invalid command format. Use: /convert <amount> <source_currency> to <target_currency>'}, status=400)
@@ -55,6 +53,12 @@ def convert_currency_view(request):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
-        return JsonResponse({'message': result_message}, status=200)
+        # Return response in the expected Telex format
+        return JsonResponse({
+            "event_name": "message_converted",
+            "message": result_message,
+            "status": "success",
+            "username": "currency_converter_bot"
+        }, status=200)
 
     return JsonResponse({'error': 'Invalid method'}, status=405)
