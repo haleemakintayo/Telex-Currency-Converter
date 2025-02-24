@@ -48,12 +48,12 @@ The integration is organized as a Django project. An example structure might be:
 
 ```
 telex_currency_converter/
-├── currency/                       # Django app for currency conversion logic
+├── api/                       # Django app for currency conversion logic
 │   ├── __init__.py
 │   ├── views.py                    # Contains the convert_currency_view function
 │   ├── urls.py                     # URL routes for the integration
 │   ├── tests.py                    # Unit tests for the integration
-│   └── utils.py                    # Utility functions: get_exchange_rate, conversion, formatting, etc.
+│   
 ├── manage.py
 ├── requirements.txt                # Project dependencies
 ├── README.md                       # This file
@@ -155,6 +155,8 @@ The response should return:
 - **Format:** `/convert <amount> <source_currency> to <target_currency>`
 - **Example:** `/convert 250 GBP to USD`
 
+curl -X POST -H "Content-Type: application/json" -d "{\"message\": \"/convert 100 USD to EUR\"}" https://currencyconv.onrender.com/telex/convert/
+
 ---
 
 ## API Reference
@@ -238,26 +240,8 @@ Tests should cover:
 
 ---
 
-## Contribution Guidelines
 
-- **Conventional Commits:**  
-  Please follow conventional commit messages for any pull requests. For example, `feat: add currency conversion endpoint`.
 
-- **Code Quality:**  
-  Ensure your code is clean, well-documented, and properly tested before submission.
 
-- **Issues and Enhancements:**  
-  Feel free to submit issues or feature requests via GitHub.
 
----
-
-## License
-
-*(Specify your license here, if applicable.)*
-
----
-
-## Contact
-
-For any questions or support regarding this integration, please contact [your-email@example.com](mailto:your-email@example.com).
 
