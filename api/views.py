@@ -32,7 +32,13 @@ def convert_currency_view(request):
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON.'}, status=400)
         
-            
+    
+        settings_payload = payload.get('settings', {})
+        
+        channel_id = payload.get('channel_id')
+        if not channel_id:
+            return JsonResponse({'error': 'Channel ID is required.'}, status=400)
+        
         message = payload.get('message', '')
         # Expected format: /convert 100 USD to EUR
         match = re.match(r'/convert\s+([\d.]+)\s+(\w{3})\s+to\s+(\w{3})', message, re.IGNORECASE)
